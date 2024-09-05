@@ -19,10 +19,10 @@ jobs:
       - checkout: self
         persistCredentials: true
 
-      - script: |
-          git config user.email $(userEmail)
-          git config user.name $(userName)
-        displayName: 'Configure Git User'
+      # - script: |
+      #     git config user.email $(userEmail)
+      #     git config user.name $(userName)
+      #   displayName: 'Configure Git User'
       
       - task: PowerShell@2
         displayName: 'Create Branch'
