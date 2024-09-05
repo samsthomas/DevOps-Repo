@@ -16,6 +16,8 @@ Write-Host "PowerShell Version: $($PSVersionTable.PSVersion)"
 $pat = "$GitHub_Token"
 $owner = "samsthomas"
 
+Write-Host "Accessing repo: https://github.com/$owner/$repo"
+
 $token = $env:GITHUB_PAT
 $headers = @{"Authorization" = "token $pat"
 Accept = "application/vnd.github.v3+json"}
@@ -38,6 +40,10 @@ Write-Host "Repo: $repo"
 Write-Host "Base Branch: $baseBranch"
 Write-Host "New Branch: $newBranch"
 
+#added simpler api call to get user details
+$userUri = "https://api.github.com/user"
+$user = Invoke-RestMethod -Uri $userUri -Headers $headers
+Write-Host "Authenticated as: $($user.login)"
 
 #get the sha of the base branch
 $uri = "https://api.github.com/repos/$owner/$repo/git/refs/heads/$baseBranch"

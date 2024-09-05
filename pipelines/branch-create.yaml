@@ -6,7 +6,7 @@ pr: none
 variables:
   - group: Secrets
   - name: githubPat
-    value: $(githubPat)
+    value: $(GitHub_Token)
 
 pool:
   name: SelfHosted
@@ -25,7 +25,7 @@ jobs:
           filePath: '$(Build.SourcesDirectory)/scripts/create-branch.ps1'
           workingDirectory: $(Build.SourcesDirectory)
         env:
-          GITHUB_PAT: $(githubPat)
+          GITHUB_PAT: $(GitHub_Token)
 
 
 
