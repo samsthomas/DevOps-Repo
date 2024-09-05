@@ -11,10 +11,10 @@ pool:
   name: Azure Pipelines
 
 jobs:
-  job: CreateBranch
-  steps:
-    - checkout: self
-    - task: PowerShell@2
+  - job: CreateBranch
+    steps:
+      - checkout: self
+      - task: PowerShell@2
       displayName: 'Create Branch'
       inputs: 
         pwsh: true
