@@ -17,7 +17,7 @@ $newBranch = "feature/create-branch"
 
 #get the sha of the base branch
 $uri = "https://api.github.com/repos/$owner/$repo/git/refs/heads/$baseBranch"
-$baseBranchRef = Invoke-RestMethod --Uri $uri -Headers $headers
+$baseBranchRef = Invoke-RestMethod -Uri $uri -Headers $headers
 $baseBranchSha = $baseBranchRef.object.sha
 
 #create the branch

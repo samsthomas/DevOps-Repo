@@ -17,6 +17,8 @@ jobs:
       - task: PowerShell@2
         displayName: 'Create Branch'
         inputs: 
+          pwsh: true
+          azurePowerShellVersion: LatestVersion
           targetType: filePath
           filePath: '$(Build.SourcesDirectory)/scripts/create-branch.ps1'
           workingDirectory: $(Build.SourcesDirectory)
