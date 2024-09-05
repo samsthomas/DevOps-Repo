@@ -1,9 +1,25 @@
 #This script is used to create a new branch in a selection of repositories
+try {
+    Write-Host "Script started"
+    
+    # Your existing script here
+    
+} catch {
+    Write-Host "An error occurred:"
+    Write-Host $_.Exception.Message
+    Write-Host $_.ScriptStackTrace
+    exit 1
+}
+
+Write-Host "PowerShell Version: $($PSVersionTable.PSVersion)"
 
 $pat = "$GitHub_Token"
 $owner = "samsthomas"
 
-$headers = @{"Authorization" = "token $pat"}
+$token = $env:GITHUB_PAT
+$headers = @{"Authorization" = "token $pat"
+Accept = "application/vnd.github.v3+json"}
+Write-Host "Headers keys: $($headers.Keys -join ', ')"
 
 #repo we are looking at
 
@@ -13,6 +29,14 @@ $repo = "DevOps-Repo"
 $branch = "feature/test-branch-creation"
 $baseBranch = "main"
 $newBranch = "feature/create-branch"
+
+Write-Host "Script started"
+
+# Add these lines right after any variable declarations
+Write-Host "Owner: $owner"
+Write-Host "Repo: $repo"
+Write-Host "Base Branch: $baseBranch"
+Write-Host "New Branch: $newBranch"
 
 
 #get the sha of the base branch
@@ -31,3 +55,5 @@ $body = @{
 Invoke-RestMethod -Uri $uri -Headers $headers -Method Post -ContentType "application/json" -Body $body
 
 Write-Host "Branch $newBranch created"
+
+

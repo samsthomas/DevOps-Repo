@@ -22,6 +22,8 @@ jobs:
           targetType: filePath
           filePath: '$(Build.SourcesDirectory)/scripts/create-branch.ps1'
           workingDirectory: $(Build.SourcesDirectory)
+          env:
+            GITHUB_PAT: $(githubPat)
 
 
 
