@@ -5,6 +5,8 @@ pr: none
 
 variables:
   - group: Secrets
+  userEmail: $(samsthomas@hotmail.co.uk)
+  userName: $(samsthomas)
 
 pool:
   name: SelfHosted
@@ -13,6 +15,27 @@ jobs:
   - job: CreateBranch
     steps:
       - checkout: self
+        persistCredentials: true
+
+      - script: |
+          git config user.email $(userEmail)
+          git config user.name $(userName)
+        displayName: 'Configure Git User'
+      
+      - task: PowerShell@2
+        displayName: 'Test GitHub API Connection'
+        inputs:
+          targetType: 'inline'
+          script: |
+            $testUri = "https://api.github.com"
+            try {
+              $response = Invoke-WebRequest -Uri $testUri -UseBasicParsing
+              Write-Host "Connection to $testUri successful. Status code: $($response.StatusCode)"
+            } catch {
+              Write-Host "Failed to connect to $testUri. Error: $_"
+              exit 1
+            }
+      
       - task: PowerShell@2
         displayName: 'Create Branch'
         inputs: 
