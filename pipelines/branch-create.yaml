@@ -5,6 +5,8 @@ pr: none
 
 variables:
   - group: Secrets
+  - name: githubPat
+    value: $(githubPat)
 
 pool:
   name: SelfHosted
