@@ -1,9 +1,10 @@
 trigger:
-  pr: none
+  - none
+
+pr: none
 
 variables:
-
-- group: Secrets
+  - group: Secrets
 
     
 pool:
