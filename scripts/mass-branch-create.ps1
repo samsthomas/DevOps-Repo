@@ -4,17 +4,13 @@ $repositoryNames = @("Branch-Test-Repo", "Branch-Test-Repo-2", "Branch-Test-Repo
 $pat = "$env:GITHUB_PAT"
 $owner = "samsthomas"
 
-#repo we are looking at
-
-$repo = "DevOps-Repo"
 
 #branches we are looking at and looking at
-$branch = "feature/test-release-branch"
+$newBranch = "feature/test-release-branch"
 $baseBranch = "main"
 
 # Add these lines right after any variable declarations
 Write-Host "Owner: $owner"
-Write-Host "Repo: $repo"
 Write-Host "Base Branch: $baseBranch"
 Write-Host "New Branch: $newBranch"
 
@@ -25,8 +21,8 @@ $headers = @{
 
 
 foreach ($repositoryName in $repositoryNames) {
-    $repositoryUrl = "https://github.com/samsthomas/$repositoryName.git"
-    $uri = "https://api.github.com/repos/$owner/$repositoryName/git/refs/heads/$baseBranch"
+    
+    $uri = "https://api.github.com/repos/$owner/$repositoryNames/git/refs/heads/$baseBranch"
     $baseBranchRef = Invoke-RestMethod -Uri $uri -Headers $headers
     $baseBranchSha = $baseBranchRef.object.sha
 
