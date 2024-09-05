@@ -20,7 +20,7 @@ jobs:
         azurePowerShellVersion: LatestVersion
         targetType: filePath
         filePath: '$(Build.SourcesDirectory)/scripts/create-branch.ps1'
-        workingDirectory: '$(Build.SourcesDirectory)
+        workingDirectory: $(Build.SourcesDirectory)
 
 
 
