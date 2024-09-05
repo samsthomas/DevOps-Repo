@@ -6,9 +6,9 @@ pr: none
 variables:
   - group: Secrets
 
-    
 pool:
-  name: Azure Pipelines
+  name: SelfHosted
+
 
 jobs:
   - job: CreateBranch
