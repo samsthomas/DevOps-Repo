@@ -1,18 +1,18 @@
 #This script is used to create a new branch in a selection of repositories
-Write-Host "GITHUB_PAT is set: $([bool]$env:GITHUB_PAT)"
-Write-Host "GITHUB_PAT length: $($env:GITHUB_PAT.Length)"
+#Write-Host "GITHUB_PAT is set: $([bool]$env:GITHUB_PAT)"
+#Write-Host "GITHUB_PAT length: $($env:GITHUB_PAT.Length)"
 
-try {
-    Write-Host "Script started"
+#try {
+#    Write-Host "Script started"
+# Your existing script here
+#    
     
-    # Your existing script here
-    
-} catch {
-    Write-Host "An error occurred:"
-    Write-Host $_.Exception.Message
-    Write-Host $_.ScriptStackTrace
-    exit 1
-}
+#} catch {
+#    Write-Host "An error occurred:"
+#    Write-Host $_.Exception.Message
+#    Write-Host $_.ScriptStackTrace
+#    exit 1
+#}
 
 Write-Host "PowerShell Version: $($PSVersionTable.PSVersion)"
 
@@ -34,7 +34,7 @@ $repo = "DevOps-Repo"
 #branches we are looking at and looking to create
 $branch = "feature/test-branch-creation"
 $baseBranch = "main"
-$newBranch = "feature/create-branch-2-test"
+$newBranch = "feature/create-branch-3-test"
 
 Write-Host "Script started"
 
@@ -45,9 +45,9 @@ Write-Host "Base Branch: $baseBranch"
 Write-Host "New Branch: $newBranch"
 
 #added simpler api call to get user details
-$userUri = "https://api.github.com/user"
-$user = Invoke-RestMethod -Uri $userUri -Headers $headers
-Write-Host "Authenticated as: $($user.login)"
+# $userUri = "https://api.github.com/user"
+# $user = Invoke-RestMethod -Uri $userUri -Headers $headers
+# Write-Host "Authenticated as: $($user.login)"
 
 #get the sha of the base branch
 $uri = "https://api.github.com/repos/$owner/$repo/git/refs/heads/$baseBranch"
