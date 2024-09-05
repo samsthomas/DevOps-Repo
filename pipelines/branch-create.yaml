@@ -25,20 +25,6 @@ jobs:
         displayName: 'Configure Git User'
       
       - task: PowerShell@2
-        displayName: 'Test GitHub API Connection'
-        inputs:
-          targetType: 'inline'
-          script: |
-            $testUri = "https://api.github.com"
-            try {
-              $response = Invoke-WebRequest -Uri $testUri -UseBasicParsing
-              Write-Host "Connection to $testUri successful. Status code: $($response.StatusCode)"
-            } catch {
-              Write-Host "Failed to connect to $testUri. Error: $_"
-              exit 1
-            }
-      
-      - task: PowerShell@2
         displayName: 'Create Branch'
         inputs: 
           pwsh: true
