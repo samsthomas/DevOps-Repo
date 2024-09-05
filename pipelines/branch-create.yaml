@@ -5,8 +5,10 @@ pr: none
 
 variables:
   - group: Secrets
-  userEmail: $(samsthomas@hotmail.co.uk)
-  userName: $(samsthomas)
+  - name: userEmail
+    value: $(samsthomas@hotmail.co.uk)
+  - name: userName
+    value: $(samsthomas)
 
 pool:
   name: SelfHosted
