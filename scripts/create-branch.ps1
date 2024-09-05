@@ -34,7 +34,7 @@ $repo = "DevOps-Repo"
 #branches we are looking at and looking to create
 $branch = "feature/test-branch-creation"
 $baseBranch = "main"
-$newBranch = "feature/create-branch"
+$newBranch = "feature/create-branch-2-test"
 
 Write-Host "Script started"
 
