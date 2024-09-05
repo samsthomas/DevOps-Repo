@@ -27,11 +27,11 @@ foreach ($repositoryName in $repositoryNames) {
     $baseBranchSha = $baseBranchRef.object.sha
 
     #Create the branch
-    $uri = "https://api.github.com/repos/$owner/$repo/git/refs"
+    $uri = "https://api.github.com/repos/$owner/$repositoryName/git/refs"
     $body = @{
         ref = "refs/heads/$newBranch"
         sha = $baseBranchSha
-    }
+    } | ConvertTo-Json
 
     Invoke-RestMethod -Uri $uri -Headers $headers -Method Post -ContentType "application/json" -Body $body
 
