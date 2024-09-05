@@ -1,0 +1,36 @@
+trigger:
+  - none
+
+pr: none
+
+variables:
+  - group: Secrets
+  # - name: userEmail
+  #   value: $(samsthomas@hotmail.co.uk)
+  # - name: userName
+  #   value: $(samsthomas)
+
+pool:
+  name: SelfHosted
+
+jobs:
+  - job: CreateBranch
+    steps:
+      - checkout: self
+        persistCredentials: true
+
+      # - script: |
+      #     git config user.email $(userEmail)
+      #     git config user.name $(userName)
+      #   displayName: 'Configure Git User'
+      
+      - task: PowerShell@2
+        displayName: 'Create Branch on all repos'
+        inputs: 
+          pwsh: true
+          azurePowerShellVersion: LatestVersion
+          targetType: filePath
+          filePath: '$(Build.SourcesDirectory)/scripts/mass-branch-create.ps1'
+          workingDirectory: $(Build.SourcesDirectory)
+        env:
+          GITHUB_PAT: $(GitHub_Token)
