@@ -13,14 +13,15 @@ try {
 
 Write-Host "PowerShell Version: $($PSVersionTable.PSVersion)"
 
-$pat = "$GitHub_Token"
+$pat = "$env:GitHub_Token"
 $owner = "samsthomas"
 
 Write-Host "Accessing repo: https://github.com/$owner/$repo"
 
-$token = $env:GITHUB_PAT
-$headers = @{"Authorization" = "token $pat"
-Accept = "application/vnd.github.v3+json"}
+$headers = @{
+    Authorization = "token $pat"
+    Accept = "application/vnd.github.v3+json"
+}
 Write-Host "Headers keys: $($headers.Keys -join ', ')"
 
 #repo we are looking at

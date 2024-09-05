@@ -5,12 +5,9 @@ pr: none
 
 variables:
   - group: Secrets
-  - name: githubPat
-    value: $(GitHub_Token)
 
 pool:
   name: SelfHosted
-
 
 jobs:
   - job: CreateBranch
@@ -26,6 +23,3 @@ jobs:
           workingDirectory: $(Build.SourcesDirectory)
         env:
           GITHUB_PAT: $(GitHub_Token)
-
-
-
