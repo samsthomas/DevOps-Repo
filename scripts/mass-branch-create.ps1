@@ -22,7 +22,7 @@ $headers = @{
 
 foreach ($repositoryName in $repositoryNames) {
     
-    $uri = "https://api.github.com/repos/$owner/$repositoryNames/git/refs/heads/$baseBranch"
+    $uri = "https://api.github.com/repos/$owner/$repositoryName/git/refs/heads/$baseBranch"
     $baseBranchRef = Invoke-RestMethod -Uri $uri -Headers $headers
     $baseBranchSha = $baseBranchRef.object.sha
 
