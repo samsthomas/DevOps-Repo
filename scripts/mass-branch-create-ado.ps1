@@ -21,6 +21,7 @@ $NewBranch = "feature/test-release-branch"
 
 foreach ($repo in $Repositories) {
     $repoUrl = "$organization/$project/_apis/git/repositories/$([System.Web.HttpUtility]::UrlEncode($repo))?api-version=7.0"
+    Write-Host "Attempting to access: $repoUrl"
     $repoDetails = Invoke-RestMethod -Uri $repoUrl -Method Get -Headers $headers
     $repoId = $repoDetails.id
     $defaultBranch = $repoDetails.defaultBranch.Replace("refs/heads/", "")
