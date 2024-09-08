@@ -4,7 +4,8 @@ trigger:
 pr: none
 
 variables:
-  - group: Secrets
+  - group: Secrets #This is the azure pipeline library where the PAT is stored
+  
   # - name: userEmail
   #   value: $(samsthomas@hotmail.co.uk)
   # - name: userName
@@ -25,7 +26,7 @@ jobs:
       #   displayName: 'Configure Git User'
       
       - task: PowerShell@2
-        displayName: 'Create Branch on all repos'
+        displayName: 'Create Branch on all github repos'
         inputs: 
           pwsh: true
           azurePowerShellVersion: LatestVersion
@@ -34,3 +35,16 @@ jobs:
           workingDirectory: $(Build.SourcesDirectory)
         env:
           GITHUB_PAT: $(GitHub_Token)
+      
+      - task: PowerShell@2
+        displayName: 'Create Branch on all ADO repos'
+        inputs: 
+          pwsh: true
+          azurePowerShellVersion: LatestVersion
+          targetType: filePath
+          filePath: '$(Build.SourcesDirectory)/scripts/mass-branch-create-ado.ps1'
+          workingDirectory: $(Build.SourcesDirectory)
+        env:
+          ADO_PAT: $(ADO_Token)
+
+      
