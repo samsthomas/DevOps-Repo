@@ -5,6 +5,9 @@ pr: none
 
 variables:
   - group: Secrets #This is the azure pipeline library where the PAT is stored
+
+  - name: Enable Github Task
+    value: false
   
   # - name: userEmail
   #   value: $(samsthomas@hotmail.co.uk)
@@ -27,6 +30,7 @@ jobs:
       
       - task: PowerShell@2
         displayName: 'Create Branch on all github repos'
+        condition: eq(variables['Enable Github Task'], 'true')
         inputs: 
           pwsh: true
           azurePowerShellVersion: LatestVersion
