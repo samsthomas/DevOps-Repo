@@ -3,7 +3,7 @@
 #defining variables
 
 $Repositories = @("ADO-Test-Repo-1", "ADO-Test-Repo-2")
-$newBranch = "test-branch-1"
+$newBranch = "test-branch-2"
 $baseBranch = "main"
 
 $organization = "samsthomas"
@@ -17,14 +17,14 @@ $headers = @{ Authorization = "Basic $base64AuthInfo" }
 
 #for loop to iterate through each repository and create a new branch
 foreach ($repo in $Repositories) {
-    Write-Host "Processing repository: $repo"
+    Write-Host "Checking repository: $repo"
     
     # Get ID of the base branch
     $url = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repo/refs?filter=heads/$baseBranch&api-version=7.1"
     try {
         $baseBranchResponse = Invoke-RestMethod -Uri $url -Headers $headers -Method GET
         $baseBranchId = $baseBranchResponse.value.objectId
-        Write-Host "  Found base branch '$baseBranch' with ID: $baseBranchId"
+        Write-Host "  Found base branch '$baseBranch'"
     } catch {
         Write-Host "  Error: Unable to find base branch '$baseBranch' in repository $repo"
         Write-Host "  StatusCode: $($_.Exception.Response.StatusCode.value__)"
