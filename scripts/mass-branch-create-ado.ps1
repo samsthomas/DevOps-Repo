@@ -16,8 +16,11 @@ $headers = @{
     Authorization=("Basic {0}" -f $base64AuthInfo)
 }
 
-$SourceBranch = "refs/heads/main"
+$defaultBranch = "refs/heads/main"
 $NewBranch = "feature/test-release-branch"
+
+
+
 
 foreach ($repo in $Repositories) {
     $repoUrl = "$organization/$project/_apis/git/repositories/$([System.Web.HttpUtility]::UrlEncode($repo))?api-version=7.0"
