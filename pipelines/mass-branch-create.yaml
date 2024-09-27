@@ -42,6 +42,7 @@ jobs:
       
       - task: PowerShell@2
         displayName: 'Create Branch on all ADO repos'
+        continueOnError: true
         inputs: 
           pwsh: true
           azurePowerShellVersion: LatestVersion
