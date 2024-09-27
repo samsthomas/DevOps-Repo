@@ -17,33 +17,57 @@ $headers = @{ Authorization = "Basic $base64AuthInfo" }
 
 #for loop to iterate through each repository and create a new branch
 foreach ($repo in $Repositories) {
+    Write-Host "Processing repository: $repo"
+    
     # Get ID of the base branch
     $url = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repo/refs?filter=heads/$baseBranch&api-version=7.1"
-    $baseBranchResponse = Invoke-RestMethod -Uri $url -ContentType "application/json" -headers $headers -Method GET
+    try {
+        $baseBranchResponse = Invoke-RestMethod -Uri $url -Headers $headers -Method GET
+        $baseBranchId = $baseBranchResponse.value.objectId
+        Write-Host "  Found base branch '$baseBranch' with ID: $baseBranchId"
+    } catch {
+        Write-Host "  Error: Unable to find base branch '$baseBranch' in repository $repo"
+        Write-Host "  StatusCode: $($_.Exception.Response.StatusCode.value__)"
+        Write-Host "  StatusDescription: $($_.Exception.Response.StatusDescription)"
+        continue
+    }
+
+    # Check if the new branch already exists
+    $checkBranchUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repo/refs?filter=heads/$newBranch&api-version=7.1"
+    $existingBranch = Invoke-RestMethod -Uri $checkBranchUrl -Headers $headers -Method GET
+
+    if ($existingBranch.value) {
+        Write-Host "  Branch '$newBranch' already exists in repository $repo. Skipping creation."
+        continue
+    }
 
     # Create a new branch
     $url = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repo/refs?api-version=7.1"
     $body = ConvertTo-Json @(
         @{
             name = "refs/heads/$newBranch"
-            newObjectId = $baseBranchResponse.value.objectId
+            newObjectId = $baseBranchId
             oldObjectId = "0000000000000000000000000000000000000000"
         }
     )
 
-    Write-Host "Calling API: $url"
-
     try {
-        Invoke-RestMethod -Uri $url -ContentType "application/json" -Body $body -headers $headers -Method POST
-        Write-Host "Created branch $newBranch in repository $repo"
+        $response = Invoke-RestMethod -Uri $url -ContentType "application/json" -Body $body -Headers $headers -Method POST
+        Write-Host "  Successfully created branch '$newBranch' in repository $repo"
+        Write-Host "  New branch details:"
+        Write-Host "    Name: $($response.name)"
+        Write-Host "    Object ID: $($response.newObjectId)"
     } catch {
-        Write-Host "An error occurred: $_"
-        Write-Host "StatusCode: $($_.Exception.Response.StatusCode.value__)"
-        Write-Host "StatusDescription: $($_.Exception.Response.StatusDescription)"
+        Write-Host "  Error: Failed to create branch '$newBranch' in repository $repo"
+        Write-Host "  StatusCode: $($_.Exception.Response.StatusCode.value__)"
+        Write-Host "  StatusDescription: $($_.Exception.Response.StatusDescription)"
+        Write-Host "  ResponseBody: $($_.ErrorDetails.Message)"
     }
+
+    Write-Host ""  # Add a blank line for better readability between repositories
 }
 
-
+Write-Host "Branch creation process completed."
 
 
 
