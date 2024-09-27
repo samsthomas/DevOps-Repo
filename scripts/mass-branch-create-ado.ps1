@@ -10,7 +10,7 @@ $baseBranch = "main"
 
 $organization = "Sams-DevOps-Project"
 $project = "Sams-DevOps-Project"
-$pat = "personalAccessToken"
+$pat = "$env:ADO_PAT"
 
 $base64AuthInfo = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(":$pat"))
 
@@ -34,9 +34,9 @@ foreach ($repo in $Repositories) {
     )
 
     Write-Host "Calling API: $url"
-    
+
     try {
-        $response = Invoke-RestMethod -Uri $url -ContentType "application/json" -Body $body -headers $headers -Method POST
+        Invoke-RestMethod -Uri $url -ContentType "application/json" -Body $body -headers $headers -Method POST
         Write-Host "Created branch $newBranch in repository $repo"
     } catch {
         Write-Host "An error occurred: $_"
@@ -44,9 +44,6 @@ foreach ($repo in $Repositories) {
         Write-Host "StatusDescription: $($_.Exception.Response.StatusDescription)"
     }
 }
-
-
-
 
 
 
