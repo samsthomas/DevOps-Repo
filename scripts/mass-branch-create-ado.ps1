@@ -52,11 +52,10 @@ foreach ($repo in $Repositories) {
     )
 
     try {
-        $response = Invoke-RestMethod -Uri $url -ContentType "application/json" -Body $body -Headers $headers -Method POST
+        Invoke-RestMethod -Uri $url -ContentType "application/json" -Body $body -Headers $headers -Method POST
         Write-Host "  Successfully created branch '$newBranch' in repository $repo"
         Write-Host "  New branch details:"
-        Write-Host "    Name: $($response.name)"
-        Write-Host "    Object ID: $($response.newObjectId)"
+        Write-Host "    Name: $($newBranch)"
     } catch {
         Write-Host "  Error: Failed to create branch '$newBranch' in repository $repo"
         Write-Host "  StatusCode: $($_.Exception.Response.StatusCode.value__)"
