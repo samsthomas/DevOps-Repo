@@ -33,9 +33,9 @@ foreach ($repo in $Repositories) {
         }
     )
 
+    Invoke-RestMethod -Uri $url -ContentType "application/json" -Body $body -headers $headers -Method POST
 
-    $response = Invoke-RestMethod -Uri $url -ContentType "application/json" -Body $body -headers $headers -Method POST
-
+    Write-Host "Created branch $newBranch in repository $repo"
 }
 
 
