@@ -1,14 +1,12 @@
 #script to create a new branch in all repositories for a ado project
 
-Add-Type -AssemblyName System.Web
-
 #defining variables
 
 $Repositories = @("ADO-Test-Repo-1", "ADO-Test-Repo-2")
 $newBranch = "test-branch-1"
 $baseBranch = "main"
 
-$organization = "Sams-DevOps-Project"
+$organization = "samsthomas"
 $project = "Sams-DevOps-Project"
 $pat = "$env:ADO_PAT"
 
