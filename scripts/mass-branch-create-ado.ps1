@@ -33,9 +33,16 @@ foreach ($repo in $Repositories) {
         }
     )
 
-    Invoke-RestMethod -Uri $url -ContentType "application/json" -Body $body -headers $headers -Method POST
-
-    Write-Host "Created branch $newBranch in repository $repo"
+    Write-Host "Calling API: $url"
+    
+    try {
+        $response = Invoke-RestMethod -Uri $url -ContentType "application/json" -Body $body -headers $headers -Method POST
+        Write-Host "Created branch $newBranch in repository $repo"
+    } catch {
+        Write-Host "An error occurred: $_"
+        Write-Host "StatusCode: $($_.Exception.Response.StatusCode.value__)"
+        Write-Host "StatusDescription: $($_.Exception.Response.StatusDescription)"
+    }
 }
 
 
