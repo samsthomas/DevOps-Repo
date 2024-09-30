@@ -4,6 +4,8 @@ $pat = "$env:GITHUB_PAT"
 $owner = "samsthomas"
 $url = "https://api.github.com/orgs/$owner/repos"
 
+Write-Host $url
+
 $headers = @{
     Authorization = "token $pat"
     Accept = "application/vnd.github.v3+json"

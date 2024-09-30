@@ -22,7 +22,7 @@ jobs:
           workingDirectory: $(Build.SourcesDirectory)
           pwsh: true
           azurePowerShellVersion: LatestVersion
-          errorActionPreference: 'stop'
+          continueOnError: true
         env:
           GITHUB_PAT: $(GitHub_Token)
 
