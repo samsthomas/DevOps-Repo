@@ -16,4 +16,12 @@ $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Get
 
 Write-Host "Repositories: $($response | Select-Object -ExpandProperty name)"
 
+$repos = $response | Select-Object -ExpandProperty name
+
+foreach ($repo in $repos) {
+        if ($repo -like "*Branch*") {
+        $BranchRepo = $repo
+        Write-Host "Branch Repository: $BranchRepo"
+    }
+}
 
