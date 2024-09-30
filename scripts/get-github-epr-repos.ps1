@@ -14,6 +14,6 @@ $headers = @{
 
 $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Get
 
-Write-Host "Repositories: $($response)"
+Write-Host "Repositories: $($response | Select-Object -ExpandProperty name)"
 
 
