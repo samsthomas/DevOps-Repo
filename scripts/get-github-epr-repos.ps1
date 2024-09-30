@@ -2,7 +2,7 @@
 
 $pat = "$env:GITHUB_PAT"
 $owner = "samsthomas"
-$url = "https://api.github.com/orgs/$owner/repos"
+$url = "https://api.github.com/users/$owner/repos"
 
 Write-Host $url
 
