@@ -19,7 +19,7 @@ jobs:
         inputs:
           targetType: 'filePath'
           target: '$(Build.SourcesDirectory)/scripts/get-github-epr-repos.ps1'
-          arguments: '-pat "$(System.AccessToken)" -owner "samsthomas"'
+          workingDirectory: $(Build.SourcesDirectory)
         env:
           GITHUB_PAT: $(GitHub_Token)
 
