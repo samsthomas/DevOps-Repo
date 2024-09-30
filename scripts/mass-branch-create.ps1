@@ -1,4 +1,12 @@
-Write-Host "PowerShell Version: $($PSVersionTable.PSVersion)"
+#script to create a new branch in all repositories for a github org
+
+
+#Write-Host "PowerShell Version: $($PSVersionTable.PSVersion)"
+
+param(
+    [Parameter(Mandatory=$true)]
+    [string]$newBranch
+)
 
 $repositoryNames = @("Branch-Test-Repo", "Branch-Test-Repo-2", "Branch-Test-Repo-3")
 $pat = "$env:GITHUB_PAT"
@@ -6,7 +14,6 @@ $owner = "samsthomas"
 
 
 #branches we are looking at and looking at
-$newBranch = "feature/test-release-branch"
 $baseBranch = "main"
 
 # Add these lines right after any variable declarations

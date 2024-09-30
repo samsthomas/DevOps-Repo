@@ -3,16 +3,18 @@ trigger:
 
 pr: none
 
+parameters:
+  -name: NewBranchName
+    type: string
+    displayName: "New Branch Name"
+
+
 variables:
   - group: Secrets #This is the azure pipeline library where the PAT is stored
 
   - name: Enable Github Task
     value: false
   
-  # - name: userEmail
-  #   value: $(samsthomas@hotmail.co.uk)
-  # - name: userName
-  #   value: $(samsthomas)
 
 pool:
   name: SelfHosted
@@ -23,10 +25,6 @@ jobs:
       - checkout: self
         persistCredentials: true
 
-      # - script: |
-      #     git config user.email $(userEmail)
-      #     git config user.name $(userName)
-      #   displayName: 'Configure Git User'
       
       - task: PowerShell@2
         displayName: 'Create Branch on all github repos'
@@ -36,9 +34,12 @@ jobs:
           azurePowerShellVersion: LatestVersion
           targetType: filePath
           filePath: '$(Build.SourcesDirectory)/scripts/mass-branch-create.ps1'
+          arguments: '-newBranch "${{ parameters.NewBranchName }}"'
           workingDirectory: $(Build.SourcesDirectory)
         env:
           GITHUB_PAT: $(GitHub_Token)
+
+
       
       - task: PowerShell@2
         displayName: 'Create Branch on all ADO repos'
@@ -48,6 +49,7 @@ jobs:
           azurePowerShellVersion: LatestVersion
           targetType: filePath
           filePath: '$(Build.SourcesDirectory)/scripts/mass-branch-create-ado.ps1'
+          arguments: '-newBranch "${{ parameters.NewBranchName }}"'
           workingDirectory: $(Build.SourcesDirectory)
         env:
           ADO_PAT: $(ADO_Token)

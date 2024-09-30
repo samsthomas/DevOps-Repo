@@ -1,0 +1,25 @@
+pr: none
+trigger: none
+
+pool: 
+  name: SelfHosted
+
+variables:
+  - group: Secrets #This is the azure pipeline library where the PAT is stored
+
+jobs:
+  - job: GetRepos
+    displayName: 'Get Repos'
+    steps:
+      - checkout: self
+        persistCredentials: true
+
+      - task: PowerShell@2
+        displayName: 'Get Repos'
+        inputs:
+          targetType: 'filePath'
+          target: '$(Build.SourcesDirectory)/scripts/get-github-epr-repos.ps1'
+          arguments: '-pat "$(System.AccessToken)" -owner "samsthomas"'
+        env:
+          GITHUB_PAT: $(GitHub_Token)
+

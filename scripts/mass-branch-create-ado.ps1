@@ -1,9 +1,16 @@
 #script to create a new branch in all repositories for a ado project
 
+
+#param for the new branch name being passed in
+
+param(
+    [Parameter(Mandatory=$true)]
+    [string]$newBranch
+)
+
 #defining variables
 
-$Repositories = @("ADO-Test-Repo-1", "ADO-Test-Repo-2")
-$newBranch = "test-branch-2"
+$Repositories = @("ADO-Test-Repo-1", "ADO-Test-Repo-2") #for ado as there are very few repos left, this can potentially be left as a list like this
 $baseBranch = "main"
 
 $organization = "samsthomas"
