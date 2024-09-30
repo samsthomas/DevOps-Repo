@@ -15,13 +15,14 @@ jobs:
         persistCredentials: true
 
       - task: PowerShell@2
-        pwsh: true
-        azurePowerShellVersion: LatestVersion
         displayName: 'Get Repos'
         inputs:
           targetType: 'filePath'
-          target: '$(Build.SourcesDirectory)/scripts/get-github-epr-repos.ps1'
+          filePath: '$(Build.SourcesDirectory)/scripts/get-github-epr-repos.ps1'
           workingDirectory: $(Build.SourcesDirectory)
+          pwsh: true
+          azurePowerShellVersion: LatestVersion
+          errorActionPreference: 'stop'
         env:
           GITHUB_PAT: $(GitHub_Token)
 
