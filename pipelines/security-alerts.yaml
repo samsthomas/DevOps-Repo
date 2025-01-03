@@ -1,0 +1,77 @@
+trigger: none
+
+schedules:
+  - cron: "0 7 * *"
+  displayName: Daily Scan
+  branches:
+    include:
+    - main
+  always: true
+
+jobs:
+
+- job: SecurityScan
+  steps:
+  
+  - task: PythonScript@0
+    name: ScanSecurityAlerts
+    inputs:
+      scriptSource: 'filePath'
+      scriptPath: '$(System.DefaultWorkingDirectory)/scripts/get-security-alerts.py'
+    env:
+      GITHUB_TOKEN: $(githubToken)  # Set in pipeline variables
+
+
+  - task: PowerShell@2
+    name: ProcessAlerts
+    inputs:
+      targetType: 'inline'
+      script: |
+        $alertsFound = $env:ALERT_COUNT
+        if ($alertsFound -gt 0) {
+          Write-Host "##vso[task.setvariable variable=HasAlerts]true"
+          # Convert the JSON string to a PowerShell object
+          $alertDetails = $env:ALERT_DETAILS | ConvertFrom-Json
+          Write-Host "##vso[task.setvariable variable=AlertDetails]$alertDetails"
+        }
+
+
+  - task: office-365-cli-cmd@0
+    condition: eq(variables.HasAlerts, 'true')
+    inputs:
+      command: 'Send-TeamsMessage'
+      messageType: 'custom'
+      message: |
+        {
+          "@type": "MessageCard",
+          "@context": "http://schema.org/extensions",
+          "summary": "Security Alerts Found",
+          "themeColor": "FF0000",
+          "title": "⚠️ Security Alerts Detected",
+          "sections": [
+            {
+              "activityTitle": "$(System.TeamProject)",
+              "activitySubtitle": "$(Build.DefinitionName)",
+              "facts": [
+                {
+                  "name": "Total Alerts",
+                  "value": "$(ALERT_COUNT)"
+                }
+              ],
+              "text": "$(ALERT_DETAILS)"
+            }
+          ],
+          "potentialAction": [
+            {
+              "@type": "OpenUri",
+              "name": "View Pipeline",
+              "targets": [
+                {
+                  "os": "default",
+                  "uri": "$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)"
+                }
+              ]
+            }
+          ]
+        }
+
