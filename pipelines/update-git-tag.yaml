@@ -11,7 +11,7 @@ steps:
   - checkout: self 
     persistCredentials: true
 
-  - script:
+  - script: |
       git config user.email ${{variables['user.email']}}
       git config user.name ${{variables['user.name']}}
     displayName: 'configure git creds'
