@@ -22,7 +22,7 @@ steps:
       pwsh: true
       azurePowerShellVersion: latestVersion
       targetType: 'filePath'
-      filePath: $(Build.SourcesDirectory)/Auto-tagging/powershell-scripts/set-release-tag.ps1)
+      filePath: $(Build.SourcesDirectory)/Auto-tagging/powershell-scripts/set-release-tag.ps1
       workingDirectory: $(Build.SourcesDirectory)
 
 
