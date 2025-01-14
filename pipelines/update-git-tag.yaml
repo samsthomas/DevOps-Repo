@@ -1,5 +1,5 @@
 trigger:
-  braches:
+  branches:
     include: release-branch
 
 pool:
