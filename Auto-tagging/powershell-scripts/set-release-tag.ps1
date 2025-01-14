@@ -22,7 +22,7 @@ function testIfTagPresent ($tag) {
 
 try {
     $versionInfo = Get-Content -Raw -Path $versioningJsonPath | ConvertFrom-Json
-    if ([sting]::IsNullOrEmpty($versionInfo.major) -or [string]::IsNullOrEmpty($versionInfo.minor)) {
+    if ([string]::IsNullOrEmpty($versionInfo.major) -or [string]::IsNullOrEmpty($versionInfo.minor)) {
         throw
 
     }
