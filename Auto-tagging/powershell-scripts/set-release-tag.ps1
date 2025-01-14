@@ -35,7 +35,7 @@ catch {
 
 $latestReleaseVersion = getLatestVersionByMajor $versionInfo.major
 
-Write-Host $latestReleaseVersion
+Write-Host "Latest release version $($latestReleaseVersion)"
 
 #check if there is an existing tag
 # if ($null -eq $latestReleaseVersion){
@@ -43,7 +43,8 @@ Write-Host $latestReleaseVersion
 # }
 
 #Remove tag if it is present 
-$latestMajorTag = "Release-$($latestReleaseVersion.Major)-latest"
+
+$latestMajorTag = "Release-$($latestReleaseVersion.major)-latest"
 if (testIfTagPresent $latestMajorTag){
     Write-Host "Removing Tag $latestMajorTag"
     git tag -d $latestMajorTag
