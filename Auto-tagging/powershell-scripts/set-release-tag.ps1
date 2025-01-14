@@ -38,9 +38,9 @@ $latestReleaseVersion = getLatestVersionByMajor $versionInfo.major
 Write-Host $latestReleaseVersion
 
 #check if there is an existing tag
-if ($null -eq $latestReleaseVersion){
-    throw "cant find tag"
-}
+# if ($null -eq $latestReleaseVersion){
+#     throw "cant find tag"
+# }
 
 #Remove tag if it is present 
 $latestMajorTag = "Release-$($latestReleaseVersion.Major)-latest"
