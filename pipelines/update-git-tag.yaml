@@ -1,6 +1,7 @@
 trigger:
   branches:
-    include: release-branch
+    include: 
+      - release-branch
 
 pool:
   name: SelfHosted
