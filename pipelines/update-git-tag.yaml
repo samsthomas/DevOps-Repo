@@ -1,0 +1,30 @@
+trigger: none
+
+pool:
+  name: SelfHosted
+
+variables:
+  user.email: "samsthomas@hotmail.co.uk"
+  user.name: "samsthomas"
+
+steps:
+  - checkout: self 
+    persistCredentials: true
+
+  - script:
+      git config user.email ${{variables['user.email']}}
+      git config user.name ${{variables['user.name']}}
+    displayName: 'configure git creds'
+
+  - task: PowerShell@2
+    displayName: "Create Latest tag for releases"
+    inputs:
+      pwsh: true
+      azurePowerShellVersion: latestVersion
+      targetType: 'filePath'
+      filePath: $(Build.SourcesDirectory)/Auto-tagging/powershell-scripts/set-release-tag.ps1)
+      workingDirectory: $(Build.SourcesDirectory)
+
+
+
+
