@@ -1,7 +1,7 @@
 function getLatestVersionByMajor ($Major) {
     $listOfReleases = git tag -l 
 
-    $versions = $listOfReleases | Where-Object {$_ -match '^Release-$Major.[0-9]+.[0-9]+.[0-9]+$'} | Foreach-Object {[System.Version]::new($_.Substring(9))}
+    $versions = $listOfReleases | Where-Object {$_ -match "^Release-$Major.[0-9]+.[0-9]+.[0-9]+$"} | Foreach-Object {[System.Version]::new($_.Substring(9))}
     $ver = $versions | Sort-Object -Descending | Select-Object -First 1
     return $ver
      
