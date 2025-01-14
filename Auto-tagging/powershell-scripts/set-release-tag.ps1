@@ -35,7 +35,7 @@ catch {
 
 $latestReleaseVersion = getLatestVersionByMajor $versionInfo.major
 
-Write-Host $latestMajorTag
+Write-Host $latestReleaseVersion
 
 #check if there is an existing tag
 if ($null -eq $latestReleaseVersion){
