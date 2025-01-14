@@ -41,6 +41,9 @@ $latestReleaseVersion = getLatestVersionByMajor $versionInfo.major
 Write-Host "Raw version info: $($versionInfo | ConvertTo-Json)"
 Write-Host "Major version: $($versionInfo.major)"
 
+$majorVersion = $($versionInfo.major)
+
+Write-Host "Test $($majorVersion)"
 Write-Host "Latest release version $($latestReleaseVersion)"
 
 #check if there is an existing tag
