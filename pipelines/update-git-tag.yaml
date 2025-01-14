@@ -1,4 +1,6 @@
-trigger: none
+trigger:
+  braches:
+    include: release-branch
 
 pool:
   name: SelfHosted
