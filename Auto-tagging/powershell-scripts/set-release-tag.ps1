@@ -38,13 +38,12 @@ Write-Host "Major version: $($versionInfo.major)"
 
 $latestReleaseVersion = getLatestVersionByMajor $versionInfo.major
 
-Write-Host "Raw version info: $($versionInfo | ConvertTo-Json)"
-Write-Host "Major version: $($versionInfo.major)"
+# Write-Host "Raw version info: $($versionInfo | ConvertTo-Json)"
+# Write-Host "Major version: $($versionInfo.major)"
 
 $majorVersion = $($versionInfo.major)
 
-Write-Host "Test $($majorVersion)"
-Write-Host "Latest release version $($latestReleaseVersion)"
+Write-Host "Latest release version $($majorVersion)"
 
 #check if there is an existing tag
 # if ($null -eq $latestReleaseVersion){
@@ -53,7 +52,7 @@ Write-Host "Latest release version $($latestReleaseVersion)"
 
 #Remove tag if it is present 
 
-$latestMajorTag = "Release-$($latestReleaseVersion.major)-latest"
+$latestMajorTag = "Release-$($majorVersion)-latest"
 if (testIfTagPresent $latestMajorTag){
     Write-Host "Removing Tag $latestMajorTag"
     git tag -d $latestMajorTag
