@@ -1,6 +1,5 @@
 function getLatestVersionByMajor ($Major) {
     $listOfReleases = git tag -l 
-    Write-Host "All tags: $($listOfReleases)"
 
     $versions = $listOfReleases | Where-Object {$_ -match "^Release-$Major\.[0-9]+-Latest$" } | Foreach-Object {
         if($_ -match "^Release-$Major\.([0-9]+)-Latest$") {
