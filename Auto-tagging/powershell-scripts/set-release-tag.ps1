@@ -1,10 +1,23 @@
 function getLatestVersionByMajor ($Major) {
     $listOfReleases = git tag -l 
+    Write-Host "All tags: $($listOfReleases)"
 
-    $versions = $listOfReleases | Where-Object {$_ -match "^Release-$Major.[0-9]+.[0-9]+$" } | Foreach-Object {[System.Version]::new($_.Substring(9))}
-    $ver = $versions | Sort-Object -Descending | Select-Object -First 1
-    return $ver
-     
+    $versions = $listOfReleases | Where-Object {$_ -match "^Release-$Major\.[0-9]+-Latest$" } | Foreach-Object {
+        if($_ -match "^Release-$Major\.([0-9]+)-Latest$") {
+            [PSCustomObject]@{
+                Major = $Major
+                Minor = [int]$matches[1]
+                FullTag = $_
+            }
+        }
+    }
+
+    $latestVersion = $versions | Sort-Object -Property Minor -Descending | Select-Object -First 1
+
+    if ($latestVersion) {
+        return $latestVersion
+    }
+    return $null
 }
 
 $versioningJsonPath = './Auto-tagging/version.json'
@@ -24,41 +37,20 @@ try {
     $versionInfo = Get-Content -Raw -Path $versioningJsonPath | ConvertFrom-Json
     if ([string]::IsNullOrEmpty($versionInfo.major) -or [string]::IsNullOrEmpty($versionInfo.minor)) {
         throw
-
     }
 }
 catch {
-
     throw "version info missing in the file '$($versioningJsonPath)'. Error : $($_.Exception.Message)"
-
 }
 
 Write-Host "Raw version info: $($versionInfo | ConvertTo-Json)"
-
 Write-Host "Major version: $($versionInfo.major)"
 Write-Host "Minor version: $($versionInfo.minor)"
 
-$latestReleaseVersion = getLatestVersionByMajor $versionInfo.major
+$latestVersion = getLatestVersionByMajor $versionInfo.major
 
-$MinorVersion = $versionInfo.minor
+$latestMajorTag = "Release-$($versionInfo.major).$($versionInfo.minor)-Latest"
 
-Write-Host "Verifying Minor version: $($MinorVersion)"
-
-# Write-Host "Raw version info: $($versionInfo | ConvertTo-Json)"
-#Write-Host "Major version: $($versionInfo.major)"
-
-$majorVersion = $($versionInfo.major)
-
-Write-Host "Latest release version- variable test $($latestReleaseVersion)"
-
-#check if there is an existing tag
-# if ($null -eq $latestReleaseVersion){
-#     throw "cant find tag"
-# }
-
-#Remove tag if it is present 
-
-$latestMajorTag = "Release-$($latestReleaseVersion)+$($MinorVersion)-latest"
 if (testIfTagPresent $latestMajorTag){
     Write-Host "Removing Tag $latestMajorTag"
     git tag -d $latestMajorTag
@@ -73,20 +65,3 @@ git push --tags --force
 
 
 
-
-
-
-
-
-
-
-
-# $prevTagVersion = @{
-#     Major = ""; Minor = ""; Patch = ""
-# }
-
-# $newTagVersion = @{
-#     Major = ""; Minor = ""; Patch = ""
-# }
-
-# try 
