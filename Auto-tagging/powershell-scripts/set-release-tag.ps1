@@ -36,7 +36,6 @@ catch {
 Write-Host "Raw version info: $($versionInfo | ConvertTo-Json)"
 
 Write-Host "Major version: $($versionInfo.major)"
-
 Write-Host "Minor version: $($versionInfo.minor)"
 
 $latestReleaseVersion = getLatestVersionByMajor $versionInfo.major
@@ -50,7 +49,7 @@ Write-Host "Verifying Minor version: $($MinorVersion)"
 
 $majorVersion = $($versionInfo.major)
 
-Write-Host "Latest release version $($majorVersion)"
+Write-Host "Latest release version- variable test $($latestReleaseVersion)"
 
 #check if there is an existing tag
 # if ($null -eq $latestReleaseVersion){
