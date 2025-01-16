@@ -34,12 +34,19 @@ catch {
 }
 
 Write-Host "Raw version info: $($versionInfo | ConvertTo-Json)"
+
 Write-Host "Major version: $($versionInfo.major)"
+
+Write-Host "Minor version: $($versionInfo.minor)"
 
 $latestReleaseVersion = getLatestVersionByMajor $versionInfo.major
 
+$MinorVersion = $versionInfo.minor
+
+Write-Host "Verifying Minor version: $($MinorVersion)"
+
 # Write-Host "Raw version info: $($versionInfo | ConvertTo-Json)"
-# Write-Host "Major version: $($versionInfo.major)"
+#Write-Host "Major version: $($versionInfo.major)"
 
 $majorVersion = $($versionInfo.major)
 
@@ -52,7 +59,7 @@ Write-Host "Latest release version $($majorVersion)"
 
 #Remove tag if it is present 
 
-$latestMajorTag = "Release-$($majorVersion)-latest"
+$latestMajorTag = "Release-$($latestReleaseVersion)+$($MinorVersion)-latest"
 if (testIfTagPresent $latestMajorTag){
     Write-Host "Removing Tag $latestMajorTag"
     git tag -d $latestMajorTag
