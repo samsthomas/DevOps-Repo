@@ -1,5 +1,5 @@
 function getLatestVersionByMajor ($Major) {
-    $listOfReleases = git tag -l 
+    $listOfReleases = git tag -l
 
     $versions = $listOfReleases | Where-Object {$_ -match "^Release-$Major.[0-9]+.[0-9]+$" } | Foreach-Object {[System.Version]::new($_.Substring(9))}
     $ver = $versions | Sort-Object -Descending | Select-Object -First 1
@@ -39,7 +39,7 @@ Write-Host "Major version: $($versionInfo.major)"
 $latestReleaseVersion = getLatestVersionByMajor $versionInfo.major
 
 # Write-Host "Raw version info: $($versionInfo | ConvertTo-Json)"
-# Write-Host "Major version: $($versionInfo.major)"
+Write-Host "Major version: $($versionInfo.major)"
 
 $majorVersion = $($versionInfo.major)
 
