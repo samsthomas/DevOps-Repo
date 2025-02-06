@@ -7,6 +7,8 @@ variables:
   user.email: "samsthomas@hotmail.co.uk"
   user.name: "samsthomas"
 
+  yamlFilePath: '$(Build.SourcesDirectory)/Image-Tags/key-pair.yaml'
+
 steps:
   - checkout: self 
     persistCredentials: true
@@ -24,6 +26,28 @@ steps:
       targetType: 'filePath'
       filePath: $(Build.SourcesDirectory)/Auto-tagging/powershell-scripts/set-release-tag.ps1
       workingDirectory: $(Build.SourcesDirectory)
+
+  - task: PowerShell@2
+    displayName: Update Tag Folder
+    inputs:
+      targetType: 'inline'
+      script: |
+        
+        Import-Module powershell-yaml
+
+        $content = Get-Content -Path "$(yamlFilePath)" -Raw
+        $versionsYaml = ConvertFrom-Yaml $content
+
+        $versionsYaml.key = "apple"
+
+        $newContent = ConvertTo-Yaml $versionsYaml
+        $newContent | Set-Content -Path "(yamlFilePath)"
+
+        git add "$(yamlFilePath)"
+        git commit -m "updated key value pair version to x"
+        git push origin HEAD
+        
+
 
 
 
