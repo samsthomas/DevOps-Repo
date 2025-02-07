@@ -84,7 +84,7 @@ steps:
         $newContent | Set-Content -Path "$(yamlFilePath)"
         
         Write-Host "New YAML content:"
-        Get-Content -Path "$(yamlFilePath)"
+        Get-Content -Path "$yamlFilePath"
 
         git status --porcelain
         git add "$yamlFilePath"
