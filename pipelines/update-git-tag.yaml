@@ -8,7 +8,7 @@ variables:
   user.name: "samsthomas"
   group: Secrets
 
-  # yamlFilePath: '$(Build.SourcesDirectory)/Image-tags/key-pair.yaml'
+  yamlFilePath: '$(Build.SourcesDirectory)/Image-tags/key-pair.yaml'
 
 steps:
   - checkout: self 
@@ -35,7 +35,6 @@ steps:
       script: |
 
         Write-Host "Current directory: $(Get-Location)"
-        Write-Host "YAML file path: $(yamlFilePath)"
         
         
         # git config user.email ${{variables['user.email']}}
@@ -43,8 +42,15 @@ steps:
         
         git clone https://$env:GitHub_PAT@github.com/samsthomas/Python-GitHub-Security.git
         cd Python-GitHub-Security
-        
 
+        $yamlFilePath = "$(Get-Location)/Image-tags/key-pair.yaml"
+        Write-Host "Updated YAML file path: $yamlFilePath"
+
+        if (!(Test-Path $yamlFilePath)) {
+            Write-Host "ERROR: YAML file not found at $yamlFilePath"
+            exit 1
+        }
+        
         git branch -l
         
         git fetch origin main
@@ -58,8 +64,7 @@ steps:
 
         
 
-        $yamlFilePath = "$(Get-Location)/Image-tags/key-pair.yaml"
-        Write-Host "Updated YAML file path: $yamlFilePath"
+
 
         Write-Host "Updating YAML file..."
 
@@ -83,7 +88,7 @@ steps:
 
         git status --porcelain
         git add "$yamlFilePath"
-
+        
         git commit -m "Updated key value pair to $(Build.BuildNumber)"
         
         git push origin HEAD:main --force
