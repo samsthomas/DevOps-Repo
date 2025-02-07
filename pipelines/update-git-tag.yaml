@@ -35,51 +35,37 @@ steps:
 
         Write-Host "Current directory: $(Get-Location)"
         Write-Host "YAML file path: $(yamlFilePath)"
-
+        
+        # Configure git
         git config user.email ${{variables['user.email']}}
         git config user.name ${{variables['user.name']}}
-
-        git config pull.rebase false
-
-        git fetch origin main
-
-        git checkout main
-        git pull origin main
-
-        Import-Module powershell-yaml
-
-        Write-Host "Updating YAML file..."
-        Write-Host " "
-        Write-Host " "
-
-        $content = Get-Content -Path "$(yamlFilePath)" -Raw
         
-
+        # Fetch latest changes
+        git fetch origin main
+        
+        # Create a fresh branch from origin/main
+        $branchName = "update-yaml-$(Build.BuildNumber)"
+        git checkout -b $branchName origin/main
+        
+        # Update YAML file
+        Import-Module powershell-yaml
+        Write-Host "Updating YAML file..."
+        $content = Get-Content -Path "$(yamlFilePath)" -Raw
         Write-Host "Current YAML content:"
         Write-Host $content
-
+        
         $versionsYaml = ConvertFrom-Yaml $content
         $versionsYaml.key = "$(Build.BuildNumber)"
-
         $newContent = ConvertTo-Yaml $versionsYaml
         $newContent | Set-Content -Path "$(yamlFilePath)"
-
+        
+        Write-Host "New YAML content:"
         Get-Content -Path "$(yamlFilePath)"
-
-        Write-Host " "
-        Write-Host " "
-
-        Write-Host "git status after changes:"
-
-        git status
-
+        
+        # Commit and push changes
         git add "$(yamlFilePath)"
-
-        git commit -m "updated key value pair version to x"
-
-        git pull origin main --no-rebase
-
-        git push origin main
+        git commit -m "Updated key value pair to $(Build.BuildNumber)"
+        git push origin $branchName:main --force
         
 
 
