@@ -7,7 +7,7 @@ variables:
   user.email: "samsthomas@hotmail.co.uk"
   user.name: "samsthomas"
 
-  yamlFilePath: '$(Build.SourcesDirectory)/Image-Tags/key-pair.yaml'
+  yamlFilePath: '$(Build.SourcesDirectory)/Image-tags/key-pair.yaml'
 
 steps:
   - checkout: self 
@@ -67,7 +67,7 @@ steps:
         Write-Host "New YAML content:"
         Get-Content -Path "$(yamlFilePath)"
 
-        git status
+        git status --porcelain
         
         # Commit and push changes
         git add "$(yamlFilePath)"
