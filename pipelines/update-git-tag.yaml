@@ -34,6 +34,7 @@ steps:
       script: |
 
         Write-Host "Current directory: $(Get-Location)"
+        Write-Host "YAML file path: $(yamlFilePath)"
 
         git checkout main
         git pull origin main
@@ -48,11 +49,16 @@ steps:
         $newContent = ConvertTo-Yaml $versionsYaml
         $newContent | Set-Content -Path "$(yamlFilePath)"
 
+        Write-Host " "
+        Write-Host " "
+
+        Write-Host "git status after changes"
+
         git status
 
         git add "$(yamlFilePath)"
         git commit -m "updated key value pair version to x"
-        git push origin HEAD:main
+        git push origin main
         
 
 
