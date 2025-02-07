@@ -95,7 +95,7 @@ steps:
         Write-Host " "
         Write-Host " "
         
-        Ensure we maintain the variables structure
+        #Ensure we maintain the variables structure
         if (-not $versionsYaml.variables) {
             $versionsYaml.variables = @{}
         }
