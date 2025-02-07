@@ -59,13 +59,15 @@ steps:
         if (-not $versionsYaml.variables) {
             $versionsYaml.variables = @{}
         }
-        
+
         $versionsYaml.variables.key = "$(Build.BuildNumber)"
         $newContent = ConvertTo-Yaml $versionsYaml
         $newContent | Set-Content -Path "$(yamlFilePath)"
         
         Write-Host "New YAML content:"
         Get-Content -Path "$(yamlFilePath)"
+
+        git status
         
         # Commit and push changes
         git add "$(yamlFilePath)"
