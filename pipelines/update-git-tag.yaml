@@ -6,6 +6,7 @@ pool:
 variables:
   user.email: "samsthomas@hotmail.co.uk"
   user.name: "samsthomas"
+  group: Secrets
 
   yamlFilePath: '$(Build.SourcesDirectory)/Image-tags/key-pair.yaml'
 
@@ -40,6 +41,12 @@ steps:
         # git config user.email ${{variables['user.email']}}
         # git config user.name ${{variables['user.name']}}
         
+        git clone https://$(GitHub_Token)@github.com/samsthomas/Python-GitHub-Security.git
+
+        git branch -l
+
+        
+
         
         git fetch origin main
         
