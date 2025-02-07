@@ -18,6 +18,10 @@ steps:
       git config user.email ${{variables['user.email']}}
       git config user.name ${{variables['user.name']}}
     displayName: 'configure git creds'
+  
+  - task: UseGitHubPAT@1
+    inputs:
+      pat: $(GitHub_Token)
 
   - task: PowerShell@2
     displayName: "Create Latest tag for releases"
@@ -35,13 +39,23 @@ steps:
       script: |
 
         Write-Host "Current directory: $(Get-Location)"
-        
+
+        $repoName = "https://github.com/samsthomas/Python-GitHub-Security"
+        $clonePath = "$env:BUILD_SOURCESDIRECTORY/Python-GitHub-Security"
+
+        Write-Host "Cloning Repo"
+
+        git clone --branch main $repoName $clonePath
+
+        cd $clonePath
+
+        pwd
         
         # git config user.email ${{variables['user.email']}}
         # git config user.name ${{variables['user.name']}}
         
-        git clone https://$env:GitHub_PAT@github.com/samsthomas/Python-GitHub-Security.git
-        cd Python-GitHub-Security
+
+        # cd Python-GitHub-Security
 
         $yamlFilePath = "$(Get-Location)/Image-tags/key-pair.yaml"
         Write-Host "Updated YAML file path: $yamlFilePath"
