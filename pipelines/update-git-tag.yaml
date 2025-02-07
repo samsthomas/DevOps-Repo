@@ -29,6 +29,7 @@ steps:
       workingDirectory: $(Build.SourcesDirectory)
 
   - task: PowerShell@2
+    condition: contains(variable['Build.SourceBranch'], '-release-branch')
     displayName: Update Tag Folder
     inputs:
       targetType: 'inline'
