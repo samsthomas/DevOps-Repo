@@ -8,7 +8,7 @@ variables:
   user.name: "samsthomas"
   group: Secrets
 
-  yamlFilePath: '$(Build.SourcesDirectory)/Image-tags/key-pair.yaml'
+
 
 steps:
   - checkout: self 
