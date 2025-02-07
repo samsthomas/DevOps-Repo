@@ -37,8 +37,8 @@ steps:
         Write-Host "YAML file path: $(yamlFilePath)"
         
         # Configure git
-        # git config user.email ${{variables['user.email']}}
-        # git config user.name ${{variables['user.name']}}
+        git config user.email ${{variables['user.email']}}
+        git config user.name ${{variables['user.name']}}
         
         # Fetch latest changes
         git fetch origin main
