@@ -36,20 +36,16 @@ steps:
         Write-Host "Current directory: $(Get-Location)"
         Write-Host "YAML file path: $(yamlFilePath)"
         
-        # Configure git
+        
         # git config user.email ${{variables['user.email']}}
         # git config user.name ${{variables['user.name']}}
         
-        # Fetch latest changes
+        
         git fetch origin main
         
-        # Create a fresh branch from origin/main
-        
-        # git checkout main
         $branchName = "update-yaml-$(Build.BuildNumber)"
         git checkout -b $branchName origin/main
         
-        # Update YAML file
 
         Import-Module powershell-yaml
 
@@ -75,11 +71,9 @@ steps:
 
         git status --porcelain
         
-        # Commit and push changes
         git add "$(yamlFilePath)"
         git commit -m "Updated key value pair to $(Build.BuildNumber)"
         
-        # Push directly to main without branch reference
         git push origin HEAD:main --force
         
         
