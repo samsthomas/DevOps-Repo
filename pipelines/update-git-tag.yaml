@@ -37,7 +37,12 @@ steps:
         Write-Host "YAML file path: $(yamlFilePath)"
 
         git checkout main
-        git pull origin main
+        
+        git fetch origin main
+
+        git reset --hard origin/main
+
+        
         
         Import-Module powershell-yaml
 
@@ -57,7 +62,11 @@ steps:
         git status
 
         git add "$(yamlFilePath)"
+
         git commit -m "updated key value pair version to x"
+
+        git pull origin main --no-rebase
+        
         git push origin main
         
 
