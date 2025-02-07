@@ -36,8 +36,11 @@ steps:
         Write-Host "Current directory: $(Get-Location)"
         Write-Host "YAML file path: $(yamlFilePath)"
 
-        git checkout main
-        
+        git config user.email ${{variables['user.email']}}
+        git config user.name ${{variables['user.name']}}
+
+        git config pull.rebase false
+
         git fetch origin main
 
         git reset --hard origin/main
@@ -46,18 +49,28 @@ steps:
         
         Import-Module powershell-yaml
 
-        $content = Get-Content -Path "$(yamlFilePath)" -Raw
-        $versionsYaml = ConvertFrom-Yaml $content
+        Write-Host "Updating YAML file..."
+        Write-Host " "
+        Write-Host " "
 
-        $versionsYaml.key = "apple"
+        $content = Get-Content -Path "$(yamlFilePath)" -Raw
+        
+
+        Write-Host "Current YAML content:"
+        Write-Host $content
+
+        $versionsYaml = ConvertFrom-Yaml $content
+        $versionsYaml.key = "$(Build.BuildNumber)"
 
         $newContent = ConvertTo-Yaml $versionsYaml
         $newContent | Set-Content -Path "$(yamlFilePath)"
 
+        Get-Content -Path "$(yamlFilePath)"
+
         Write-Host " "
         Write-Host " "
 
-        Write-Host "git status after changes"
+        Write-Host "git status after changes:"
 
         git status
 
@@ -66,7 +79,7 @@ steps:
         git commit -m "updated key value pair version to x"
 
         git pull origin main --no-rebase
-        
+
         git push origin main
         
 
