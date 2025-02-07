@@ -51,9 +51,7 @@ steps:
         
         # git config user.email ${{variables['user.email']}}
         # git config user.name ${{variables['user.name']}}
-        
 
-        # cd Python-GitHub-Security
 
         $yamlFilePath = "$(Get-Location)/Image-tags/key-pair.yaml"
         Write-Host "Updated YAML file path: $yamlFilePath"
@@ -62,39 +60,53 @@ steps:
             Write-Host "ERROR: YAML file not found at $yamlFilePath"
             exit 1
         }
-        
+
+        Write-Host " "
+        Write-Host "Get all branches:"
         git branch -l
-        
+        Write-Host " "
+
         git fetch origin main
         
+        #switch to a new branch 
         $branchName = "update-yaml-$(Build.BuildNumber)"
         git checkout -b $branchName origin/main
 
-        Write-Host "Current directory: $(Get-Location)"
+        # Write-Host "Current directory: $(Get-Location)"
+
+
 
         Import-Module powershell-yaml
-
         
+        Write-Host " "
+        Write-Host " "
+        Write-Host " "
 
-
-
-        Write-Host "Updating YAML file..."
+        #get current yaml content
+        Write-Host "Get current Yaml content ..."
+        Write-Host " "
 
         $content = Get-Content -Path "$yamlFilePath" -Raw
         Write-Host "Current YAML content:"
         Write-Host $content
-        
+      
         $versionsYaml = ConvertFrom-Yaml $content
-        
-        # Ensure we maintain the variables structure
-        # if (-not $versionsYaml.variables) {
-        #     $versionsYaml.variables = @{}
-        # }
 
+        Write-Host " "
+        Write-Host " "
+        
+        Ensure we maintain the variables structure
+        if (-not $versionsYaml.variables) {
+            $versionsYaml.variables = @{}
+        }
+
+        #update yaml content 
+        Write-Host "Updating YAML file..."
         $versionsYaml.variables.key = "$(Build.BuildNumber)"
         $newContent = ConvertTo-Yaml $versionsYaml
-        $newContent | Set-Content -Path "$(yamlFilePath)"
+        $newContent | Set-Content -Path "$yamlFilePath"
         
+        #checkout new yaml content
         Write-Host "New YAML content:"
         Get-Content -Path "$yamlFilePath"
 
