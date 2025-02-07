@@ -43,10 +43,9 @@ steps:
 
         git fetch origin main
 
-        git reset --hard origin/main
+        git checkout main
+        git pull origin main
 
-        
-        
         Import-Module powershell-yaml
 
         Write-Host "Updating YAML file..."
