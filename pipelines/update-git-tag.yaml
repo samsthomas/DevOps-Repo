@@ -41,11 +41,11 @@ steps:
         # git config user.email ${{variables['user.email']}}
         # git config user.name ${{variables['user.name']}}
         
-        git clone https://$(GitHub_Token)@github.com/samsthomas/Python-GitHub-Security.git
+        git clone https://$(GitHub_PAT)@github.com/samsthomas/Python-GitHub-Security.git
 
         git branch -l
 
-        
+
 
         
         git fetch origin main
@@ -82,7 +82,8 @@ steps:
         git commit -m "Updated key value pair to $(Build.BuildNumber)"
         
         git push origin HEAD:main --force
-        
+      env:
+        GitHub_PAT: $(GitHub_Token)
         
 
 
