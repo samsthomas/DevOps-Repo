@@ -45,7 +45,7 @@ steps:
 
         git add "$(yamlFilePath)"
         git commit -m "updated key value pair version to x"
-        git push origin HEAD
+        git push origin HEAD:Apple
         
 
 
