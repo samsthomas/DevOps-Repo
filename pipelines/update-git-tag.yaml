@@ -43,19 +43,23 @@ steps:
         
         git clone https://$env:GitHub_PAT@github.com/samsthomas/Python-GitHub-Security.git
         cd Python-GitHub-Security
+        
 
         git branch -l
-
-
-
         
         git fetch origin main
         
         $branchName = "update-yaml-$(Build.BuildNumber)"
         git checkout -b $branchName origin/main
-        
+
+        Write-Host "Current directory: $(Get-Location)"
 
         Import-Module powershell-yaml
+
+        
+
+        $yamlFilePath = "$(Get-Location)/Image-tags/key-pair.yaml"
+        Write-Host "Updated YAML file path: $yamlFilePath"
 
         Write-Host "Updating YAML file..."
 
@@ -78,8 +82,8 @@ steps:
         Get-Content -Path "$(yamlFilePath)"
 
         git status --porcelain
+        git add "$yamlFilePath"
         
-        git add "$(yamlFilePath)"
         git commit -m "Updated key value pair to $(Build.BuildNumber)"
         
         git push origin HEAD:main --force
