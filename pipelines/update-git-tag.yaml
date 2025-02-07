@@ -68,7 +68,7 @@ steps:
 
         Write-Host "Updating YAML file..."
 
-        $content = Get-Content -Path "$(yamlFilePath)" -Raw
+        $content = Get-Content -Path "$yamlFilePath" -Raw
         Write-Host "Current YAML content:"
         Write-Host $content
         
