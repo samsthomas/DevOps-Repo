@@ -41,7 +41,7 @@ steps:
         # git config user.email ${{variables['user.email']}}
         # git config user.name ${{variables['user.name']}}
         
-        git clone https://$(GitHub_PAT)@github.com/samsthomas/Python-GitHub-Security.git
+        git clone https://$env:GitHub_PAT@github.com/samsthomas/Python-GitHub-Security.git
         cd Python-GitHub-Security
 
         git branch -l
