@@ -32,6 +32,11 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
+
+        Write-Host "Current directory: $(Get-Location)"
+
+        git checkout main
+        git pull origin main
         
         Import-Module powershell-yaml
 
@@ -41,7 +46,9 @@ steps:
         $versionsYaml.key = "apple"
 
         $newContent = ConvertTo-Yaml $versionsYaml
-        $newContent | Set-Content -Path "(yamlFilePath)"
+        $newContent | Set-Content -Path "$(yamlFilePath)"
+
+        git status
 
         git add "$(yamlFilePath)"
         git commit -m "updated key value pair version to x"
