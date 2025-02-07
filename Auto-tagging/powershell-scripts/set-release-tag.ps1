@@ -19,6 +19,13 @@ function getLatestVersionByMajor ($Major) {
     return $null
 }
 
+# Write-Host "Cloning Repo"
+# $repoName = "https://github.com/samsthomas/Python-GitHub-Security"
+# $clonePath = "$env:BUILD_SOURCESDIRECTORY/Python-GitHub-Security"
+# git clone --branch main $repoName $clonePath
+# cd $clonePath
+
+
 $versioningJsonPath = './Auto-tagging/version.json'
 
 function testIfTagPresent ($tag) {
