@@ -37,28 +37,34 @@ steps:
         Write-Host "YAML file path: $(yamlFilePath)"
         
         # Configure git
-        git config user.email ${{variables['user.email']}}
-        git config user.name ${{variables['user.name']}}
+        # git config user.email ${{variables['user.email']}}
+        # git config user.name ${{variables['user.name']}}
         
         # Fetch latest changes
         git fetch origin main
         
         # Create a fresh branch from origin/main
-        $branchName = "update-yaml-$(Build.BuildNumber)"
-        git checkout -b $branchName origin/main
+        
+        git checkout main
+        # $branchName = "update-yaml-$(Build.BuildNumber)"
+        # git checkout -b $branchName origin/main
         
         # Update YAML file
+
         Import-Module powershell-yaml
+
         Write-Host "Updating YAML file..."
+
         $content = Get-Content -Path "$(yamlFilePath)" -Raw
         Write-Host "Current YAML content:"
         Write-Host $content
         
         $versionsYaml = ConvertFrom-Yaml $content
+        
         # Ensure we maintain the variables structure
-        if (-not $versionsYaml.variables) {
-            $versionsYaml.variables = @{}
-        }
+        # if (-not $versionsYaml.variables) {
+        #     $versionsYaml.variables = @{}
+        # }
 
         $versionsYaml.variables.key = "$(Build.BuildNumber)"
         $newContent = ConvertTo-Yaml $versionsYaml
@@ -74,7 +80,7 @@ steps:
         git commit -m "Updated key value pair to $(Build.BuildNumber)"
         
         # Push directly to main without branch reference
-        git push origin HEAD:main --force
+        git push origin main
         
         
 
