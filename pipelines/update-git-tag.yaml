@@ -18,10 +18,6 @@ steps:
       git config user.email ${{variables['user.email']}}
       git config user.name ${{variables['user.name']}}
     displayName: 'configure git creds'
-  
-  - task: UseGitHubPAT@1
-    inputs:
-      pat: $(GitHub_Token)
 
   - task: PowerShell@2
     displayName: "Create Latest tag for releases"
@@ -38,8 +34,8 @@ steps:
       targetType: 'inline'
       script: |
 
-        Write-Host "Current directory: $(Get-Location)"
-
+        
+        #pull repo
         $repoName = "https://github.com/samsthomas/Python-GitHub-Security"
         $clonePath = "$env:BUILD_SOURCESDIRECTORY/Python-GitHub-Security"
 
@@ -48,6 +44,8 @@ steps:
         git clone --branch main $repoName $clonePath
 
         cd $clonePath
+
+        Write-Host "Current directory: $(Get-Location)"
 
         pwd
         
